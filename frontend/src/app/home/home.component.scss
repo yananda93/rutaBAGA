@@ -1,0 +1,47 @@
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.modal-dialog {
+  max-width: 98%;
+  height:90%;
+  
+  margin: 2rem auto;
+}
+
+
+.modal-footer--sticky {
+position: sticky;
+bottom: 0;
+background-color: inherit; /* [1] */
+z-index: 1055; /* [2] */
+}
+
+th.mat-header-cell {
+font-size: 14px;
+color: black
+}
+
+
+.mat-cell {
+vertical-align: middle;
+}
+
+.mat-header-cell {
+vertical-align: middle;
+}
+
+.mat-row:nth-child(odd){
+background: rgba(0,0,0,0.025);
+}
+
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+font-size: 20px;
+}
+
+::ng-deep
+.joyride-step__container {
+  max-width: 50vw !important;
+  }

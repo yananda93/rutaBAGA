@@ -1,0 +1,200 @@
+
+<app-nav></app-nav>
+
+<div   class="review-progress" >
+
+    <div joyrideStep="step2" [title]="'Progress'" [stepContent]="content2"
+
+    style="display: inline-block; width:150px; height: 20px;">
+    {{  numAssignedReviewed + " / " + numAssigned + " assigned"}} rated 
+    </div>
+    <!-- &nbsp; &nbsp; &nbsp; -->
+    <span joyrideStep="step3" [title]="'Applicantion Navigation'" [stepContent]="content3" >
+    <button class="btn fa fa-angle-left" [disabled]="currentId==minId" (click)="onPrev()"> </button>
+    &nbsp; &nbsp; &nbsp;
+    <select  id="select" [(ngModel)]="tour ? 2 : currentId" (ngModelChange)="onSelectChange($event)">
+        
+      <option  *ngFor="let applicant of assignedApplicantsList; let i = index" [ngValue] = "applicant['id']" >  
+        {{ tour ? "Jane" : applicant[this.dataConfig.profileAttributeMapping['First Name']]}}  
+        {{tour ? "Doe" :  applicant[this.dataConfig.profileAttributeMapping['Last Name']]}} 
+        {{tour ? notReviewedIndicator :  assignedApplicants[applicant['id']]['viewed'] ? reviewedIndicator : notReviewedIndicator}}  
+      </option>
+    </select>
+    &nbsp; &nbsp; &nbsp;
+    <button class="btn fa fa-angle-right" [disabled]="currentId==maxId" aria-hidden="true" (click)="onNext()"></button>
+  </span>
+
+ 
+</div>
+
+
+  
+<div>
+  <as-split direction="horizontal" class="border-light main-view" > 
+    <as-split-area [size]="68" id='pdf-area' >
+      <div id='nav-bar'>
+        <nav mat-tab-nav-bar joyrideStep="step4" [title]="'Application Materials'" [stepContent]="content4"
+        >
+          <a mat-tab-link *ngFor="let link of pdfLinks; let i = index;"  (click)= "onClickPDFLink(link)"   [active]="activeLink == link">
+              {{link}}
+          </a>
+        </nav>
+      </div>
+      <div class="pdf-view"  (click)="onClickPDF()" >
+        <ngx-extended-pdf-viewer 
+          [src]="pdfUrl"
+          useBrowserLocale="false"
+          [textLayer]="true" 
+          [handTool] = "false"
+          [showHandToolButton] = "true"
+          [showOpenFileButton] = "false"
+          [showBookmarkButton] = "false"
+          [showBorders] = "false"
+          [showSidebarButton] = "true"
+          [showPropertiesButton]= "false"
+       
+          [logLevel] = "0"
+          (pageChange)="onPDFPageChange()"
+      ></ngx-extended-pdf-viewer>
+
+      </div>
+    </as-split-area>
+
+    <as-split-area [size]="32">
+      <as-split direction="vertical">
+        <as-split-area [size]="42">
+          <div id="profile-div" class="profile"
+           (click)="onClickProfile()" 
+           joyrideStep="step5" [title]="'Profile Attributes'" [stepContent]="content5"
+          stepPosition="left"
+          >
+            <div style="width:100%;height: 35px;">
+              <div style = "padding-top: 5px; width: 15%; float:left ">
+                Profile
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div style = "padding-top: 5px;">
+              <table *ngIf="selectedObject || tour" >
+                <tbody>
+                    <tr *ngFor="let attr of selectedAttributeList" >
+                      <td style="padding:1px 2px ">
+                        <span class="text-muted">{{attr.itemName}}</span>
+                      </td>
+    
+                      <td style="padding: 1px; padding-left:12px; padding-right: 0px;">
+                        <strong>{{formatAttribute(attr.itemName)}}</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+
+        </as-split-area>
+
+        
+      <as-split-area [size]="34">
+        <div id="comment-div" class=" comment-all" 
+        joyrideStep="step6" [title]="'Comments'"  [stepContent]="content6"
+        stepPosition="left"
+        (click)="onClickComment()" >
+          <p>Comments</p>
+          <mat-divider></mat-divider>
+          <app-comment-box [userName]="userName" (usercomment)="receiveComment($event)"></app-comment-box>
+          <div *ngIf="comments.length>0">
+            <div  *ngFor="let post of comments; let i = index;">
+              <span style="color:rgb(201, 201, 201); font-size:small;">{{post.postTime}}</span> 
+              <button class="cancel" mat-icon-button (click)="removeComment(i)">
+                  <mat-icon style="font-size:15px;">clear</mat-icon>
+              </button>
+              <div [innerHTML] = "formatComment(post.content)" ></div>
+              <mat-divider></mat-divider>
+              
+            </div>
+          </div>
+        </div>
+      </as-split-area>
+      <as-split-area [size]="24">
+        <div id="rating-div" class="rating-all" 
+        joyrideStep="step7" [title]="'Ratings'"  [stepContent]="content7"  stepPosition="left"
+        (click)="onClickRating()" 
+        >
+          <p >Ratings 
+
+          </p>
+          <mat-divider></mat-divider>
+
+            <div style = "display: flex; align-content: space-between; align-items: center; padding-top: 15px;">
+              <div style="width: 30%; cursor: help; text-decoration: underline dotted;" 
+              [matTooltip]=ratingVariablesTooltip[recommendation]>
+                {{recommendation}}
+              </div>
+              <div style="width:60%;">
+                <mat-slider thumbLabel [(ngModel)]="ratings[ratingVariablesMap[recommendation]]"  (change)="onRadioChange($event)"
+                  min="1" max="100" tickInterval="1"   
+                  >
+                </mat-slider>
+              </div>
+              <div style="margin-left:15px; width:10%"><b>{{ratings[ratingVariablesMap[recommendation]]}}</b></div>
+            </div>
+            <span style="width:25%; position: relative; display: inline-block; "> </span>
+            <div style="width:73%; position: relative; display: inline-block;">
+              <div class="d-flex justify-content-between " >
+                <div style="font-size:12px">1: Not Competitive</div>
+                <div style="font-size:12px">100: Very Competitive</div>
+              </div>
+            </div>
+
+        </div>
+      
+      </as-split-area>
+    </as-split>
+    
+    </as-split-area>
+  </as-split>
+</div>
+
+<ng-template #content2>
+  <p>Your review progress:  </p>
+  <p><strong>number of reviewed applications</strong> out of the <strong>total number of applications</strong>.</p>
+
+</ng-template>
+<ng-template #content3>
+  <p>Click the "<strong><</strong>" or "<strong>></strong>" arrow to navigate to the previous/next applicant. </p>
+  <p>Click the dropdown list to select any applicant.</p>
+  <p>A checkmark (✓) will be added at the end of the applicant's name to indicate you've rated this application.</p>
+
+</ng-template>
+
+<ng-template #content4>
+
+  <p>Navigate through application materials for the selected applicant by clicking any of the document links.</p>
+  <p>Documents include personal statement, resume, recommendation letters, and transcripts.</p>
+</ng-template>
+
+<ng-template #content5>
+
+  <p>The profile panel provides an overview of the applicant's background attributes 
+    such as name, GPA, and test scores. </p>
+    <!-- <p>Click on the dropdown list to select/unselect individual attributes to be displayed.</p> -->
+
+</ng-template>
+
+<ng-template #content6>
+
+  <p>Write down notes that help you rate the applicants. </p>
+
+</ng-template>
+
+<ng-template #content7>
+
+  <p>Drag the slider to rate the competitivenss of the applicant. </p>
+  <p>The rating is on a scale of 1 (Not competitive) - 100 (Very competitive). </p>
+
+
+</ng-template>
+
+
+

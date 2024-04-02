@@ -1,0 +1,291 @@
+<app-nav></app-nav>
+
+
+<div>
+  <as-split direction="horizontal" class="border-light main-view" style="width:100%" restrictMove="true"> 
+
+    <as-split-area [size]="72" >
+      <div *ngIf="loading" class="spinner-border spinner  text-secondary" role="status" >
+        <span  class="sr-only">Loading...</span>
+      </div>
+      <as-split *ngIf="!loading" direction="vertical">
+        <as-split-area [size]="60" (resized)="onResizePlots($event)"  style="position: relative; overflow: auto;" >
+          <div style="height: calc(100% - 1px); display: flex;" >
+            <div class = 'border-light' style="width: 42%; display: flex; flex-direction: column;"
+            joyrideStep="step11" [title]="'Time Spent Across Different Gender/Race'" [stepContent]="content11" >
+              <div style=" text-align: center; font-size: 15px;  padding: 10px; font-weight:500; height:10%">
+                <mat-icon matTooltip="The plots below show the distribution of time spent on each applicant across different gender and race. 
+                Each colored circle represents an applicant.
+                Hover on a circle to see details about the applicant. 
+                Click on a circle to go back to the Rating page." 
+                style=" cursor:help ;font-size:18px; display: inline-block; vertical-align: middle; padding-top: 2px;">info_outline</mat-icon>
+                How much time I've spent across different gender/race
+              </div>
+              <div style="display: flex; flex-direction: column; justify-content:space-around;height: 90%;">
+                <div style = "display: flex; flex-direction: column;" [ngStyle]="{'height': genderPlotHeight}"> 
+                    <div id="boxplot_gender" style="width:100%; height: 70%;"
+                    joyrideStep="step13" [title]="'Interact with the Plots'" [stepContent]="content13">
+                    </div>
+                    <div *ngIf="objectKeys(reviewedApplicants).length>0" style="display: flex;">
+                      <mat-icon style="color: #f0ad4e;" class= 'info-icon'>tips_and_updates</mat-icon>
+                      <div  class="alert alert-warning info-box" role="alert">
+                          <!-- The distribution of <b>time spent</b> on each applicant across different <b>race</b>. -->
+                          I've spent on average 
+                          <span *ngIf="averageTotalTimeFemale">                          
+                              <b>{{averageTotalTimeFemale}}</b> minutes on applicants who identified as <b>female</b>
+                          </span>
+                          <span *ngIf="averageTotalTimeFemale && averageTotalTimeMale && averageTotalTimeNonBinary">, </span> 
+                          <span *ngIf="averageTotalTimeFemale && averageTotalTimeMale && !averageTotalTimeNonBinary"> and </span> 
+                          <span *ngIf="averageTotalTimeMale">  
+                            <b>{{averageTotalTimeMale}}</b> minutes on applicants who identified as <b>male</b>
+                          </span>
+                          <span *ngIf="averageTotalTimeFemale && averageTotalTimeMale && averageTotalTimeNonBinary">, </span> 
+                          <span *ngIf="(averageTotalTimeFemale || averageTotalTimeMale) && averageTotalTimeNonBinary"> and </span> 
+                          <span *ngIf="averageTotalTimeNonBinary">
+                            <b>{{averageTotalTimeNonBinary}}</b> minutes on applicants who identified as <b>non-binary</b>
+                          </span>.
+                      </div>
+                    </div>
+
+                </div>
+                <div style="display: flex; flex-direction: column;" [ngStyle]="{'height': racePlotHeight}" >
+                  <div id="boxplot_race" style="width:100%; height: 70%;">
+                  </div>
+                  <div *ngIf="objectKeys(reviewedApplicants).length>0" style="display: flex;">
+                    <mat-icon style="color: #f0ad4e;" class= 'info-color info-icon'>tips_and_updates</mat-icon>
+                    <div class="alert alert-warning info-box" role="alert"> 
+                        I've spent on average 
+                        <span *ngIf="averageTotalTimeBlack">       
+                          <b>{{averageTotalTimeBlack}}</b> minutes on <b>black</b> applicants                    
+                       </span>
+                       <span *ngIf="averageTotalTimeBlack && averageTotalTimeWhite"> and </span>  
+                       <span *ngIf="averageTotalTimeWhite">
+                          <b>{{averageTotalTimeWhite}}</b> minutes on <b>white</b> applicants
+                        </span>.
+                    </div>
+                  </div>
+                </div>
+      
+              </div>
+            </div>
+            <div class = 'border-light' style="width: 42%; display: flex; flex-direction: column;"
+            joyrideStep="step12" [title]="'Overall Rating Across Different Gender/Race'" [stepContent]="content12" [stepPosition]="right" >
+              <div style=" text-align: center; font-size: 15px;  padding: 10px; font-weight:500; height:10%">
+                <mat-icon matTooltip="The plots below show the distribution of overall ratings for each applicant across different gender and race. 
+                Each colored circle represents an applicant.
+                Hover on a circle to see details about the applicant. 
+                Click on a circle to go back to the Rating page." 
+                style=" cursor:help ;font-size:18px; display: inline-block; vertical-align: middle; padding-top: 2px;">info_outline</mat-icon>
+                How I rated applicants across different gender/race
+              </div>
+
+              <div  style="display: flex; flex-direction: column; justify-content:space-around;height: 90%; ">
+                <div style = "display: flex; flex-direction: column;" [ngStyle]="{'height': genderPlotHeight}"> 
+                  <div id="rating_boxplot_gender" style="width:100%; height: 70%;"
+                  >
+                  </div>
+
+                <div *ngIf="objectKeys(reviewedApplicants).length>0" style="display: flex;">
+                  <mat-icon style="color: #f0ad4e;" class= 'info-icon'>tips_and_updates</mat-icon>
+                  <div class="alert alert-warning info-box" role="alert">
+
+                      I've rated on average
+                      <span *ngIf="averageRatingFemale">                          
+                          <b>{{averageRatingFemale}}</b> for applicants who identified as <b>female</b>
+                      </span>
+                      <span *ngIf="averageRatingFemale && averageRatingMale && averageRatingNonBinary">, </span> 
+                      <span *ngIf="averageRatingFemale && averageRatingMale && !averageRatingNonBinary"> and </span> 
+                      <span *ngIf="averageRatingMale">  
+                        <b>{{averageRatingMale}}</b> for applicants who identified as <b>male</b>
+                      </span>
+                      <span *ngIf="averageRatingFemale && averageRatingMale && averageRatingNonBinary">, </span> 
+                      <span *ngIf="(averageRatingFemale || averageRatingMale) && averageRatingNonBinary"> and </span> 
+                      <span *ngIf="averageRatingNonBinary">
+                        <b>{{averageRatingNonBinary}}</b> for applicants who identified as <b>non-binary</b>
+                      </span>.
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column;" [ngStyle]="{'height': racePlotHeight}" >
+                <div id="rating_boxplot_race" style="width:100%; height: 70%;">
+                </div>
+                <div *ngIf="objectKeys(reviewedApplicants).length>0" style="display: flex;">
+                  <mat-icon style="color: #f0ad4e;" class= 'info-icon'>tips_and_updates</mat-icon>
+                  <div class="alert alert-warning info-box" role="alert">
+                      <!-- I've rated on average <b>{{averageRatingBlack}}</b> for <b>black</b> applicants 
+                      and <b>{{averageRatingWhite}}</b> for <b>white</b> applicants. -->
+
+                      I've rated on average
+                      <span *ngIf="averageRatingBlack">       
+                        <b>{{averageRatingBlack}}</b> for <b>black</b> applicants                    
+                     </span>
+                     <span *ngIf="averageRatingBlack && averageRatingWhite"> and </span>  
+                     <span *ngIf="averageRatingWhite">
+                        <b>{{averageRatingWhite}}</b> for <b>white</b> applicants
+                      </span>.
+                  </div>
+                </div>
+              </div>
+                <!-- <div id="axis_lable" style= "text-align:center; font-size: 14px; font-weight: 500; padding:15px"> Overall Rating</div> -->
+              </div>
+            </div>
+            <div class = 'border-light' style="width: 16%; display: flex; flex-direction: column;">
+              
+                <ul joyrideStep="step14" [title]="'Applicant List'" [stepContent]="content14" 
+                *ngIf="objectKeys(reviewedApplicants).length>0" class="list-group">
+                  <li class="list-group-item"><b>Applicants</b></li>
+                  <li style = "cursor: pointer;" class="list-group-item"
+                  [ngClass]="{'list-group-item-primary' : data.id == currentId}"
+                  *ngFor="let data of reviewedApplicantsList"
+                  (click)="onClickName(data)"
+                  (mouseover)="onHoverName(data)"
+                  (mouseout)="onMouseoutName()">
+                    {{data.NAME_FIRST}} {{data.NAME_LAST}}
+                  </li>
+
+                </ul>
+
+            </div>
+          </div>
+        </as-split-area>
+
+      </as-split>
+
+    </as-split-area>
+    <as-split-area [size]="28"
+    joyrideStep="step15" [title]="'Profile, Comments, and Ratings'" [stepContent]="content15">
+      <as-split direction="vertical">
+        <as-split-area [size]="42">
+          <div id="profile-div" class="profile ">
+            <div style="width:100%;height: 35px;">
+              <div style = "padding-top: 5px; width: 15%; float:left ">
+                Profile
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div>
+              <table *ngIf="selectedObject" >
+                <tbody>
+                    <tr *ngFor="let attr of selectedAttributeList" >
+                      <td style="padding:1px 2px ">
+                        <span class="text-muted">{{attr.itemName}}</span>
+                      </td>
+    
+                      <td style="padding: 1px; padding-left:12px; padding-right: 0px;">
+                        <strong>{{formatAttribute(attr.itemName)}}</strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+
+        </as-split-area>
+        
+      <as-split-area [size]="34">
+        <div id="comment-div" class=" comment-all " >
+          <p>Comments</p>
+          <mat-divider></mat-divider>
+          <app-comment-box *ngIf="objectKeys(selectedObject).length>0" [userName]="userName" (usercomment)="receiveComment($event)"></app-comment-box>
+          <div *ngIf="comments.length>0">
+          
+            <div  *ngFor="let post of comments; let i = index;">
+              <!-- <span style="font-weight:500">{{post.username}}</span>   -->
+              <span style="margin-left:10px; color:rgb(201, 201, 201); font-size:small;">{{post.postTime}}</span> 
+              <button class="cancel" mat-icon-button (click)="removeComment(i)">
+                  <mat-icon style="font-size:15px;">clear</mat-icon>
+              </button>
+              <!-- <p>{{post.content}}</p> -->
+              <div [innerHTML] = "formatComment(post.content)" ></div>
+              <mat-divider></mat-divider>
+              
+            </div>
+          </div>
+        </div>
+      </as-split-area>
+
+      <as-split-area [size]="24">
+        <div id="rating-div" class="rating-all ">
+          <p>Ratings
+          </p>
+          <mat-divider></mat-divider>
+
+          <div style = "padding-top: 5px; display: flex; align-content: space-between; align-items: center;">
+            <div style="width: 30%;" ></div>
+            <div id="rating-distribution"  style="width:60%;">
+            </div>
+            <div style="margin-left:5px; width:10%"></div>
+          </div>
+          <div style = "display: flex; align-content: space-between; align-items: center;">
+            <div style="width: 30%; cursor: help; text-decoration: underline dotted;" 
+            [matTooltip]=ratingVariablesTooltip[recommendation]>
+              {{recommendation}}
+            </div>
+            <div style="width:60%;">
+              <mat-slider thumbLabel [(ngModel)]="selectedObject[ratingVariablesMap[recommendation]]"  (change)="onRadioChange($event)"
+                min="1" max="100" tickInterval="1"  
+                [disabled]="objectKeys(selectedObject).length==0" 
+                >
+              </mat-slider>
+            </div>
+            <div style="margin-left:5px; width:10%"><b>{{selectedObject[ratingVariablesMap[recommendation]]}}</b></div>
+          </div>
+
+    <div>
+          <span style="width:25%; position: relative; display: inline-block; "> </span>
+          <div style="width:73%; position: relative; display: inline-block;">
+            <div class="d-flex justify-content-between " >
+              <div style="font-size:12px">1: Not Competitive</div>
+              <div style="font-size:12px">100: Very Competitive</div>
+            </div>
+          </div>
+      </div>
+    </div>
+      
+      </as-split-area>
+    </as-split>
+    </as-split-area>
+  </as-split>
+</div>
+
+<ng-template #content13>
+
+  <p>Each <b>colored circle </b>represents an <b>applicant</b>.</p>
+  <p>The <b>black vertical line</b> represents the average value.</p>
+  <br>
+  <p>The plots are <b>interactive</b>:</p>
+  <p> -  <b>Hover</b> on a circle to see <b>details</b> about the applicant.</p> 
+  <p> -  <b>Click</b> on a circle to <b>go back</b> to the Rating page of the applicant.</p>
+</ng-template>
+
+<ng-template #content11>
+  <p>The plots on the left show the distribution of <b>time spent</b> on each applicant across different <b>gender</b>(top) and <b>race</b>(bottom) groups.</p>
+  <br>
+  <p>The <b>X-axis</b> represents <b>time spent</b> in minutes.</p>
+  <p>The <b>Y-axis</b> represents <b>gender</b>(top) and <b>race</b>(bottom) categories.</p>
+</ng-template>
+
+<ng-template #content12>
+  <p>The plots on the left show the distribution of your <b>overall ratings</b> on each applicant across different <b>gender</b>(top) and <b>race</b>(bottom) groups.</p>
+  <br>
+  <p>The <b>X-axis</b> represents the <b>Overall Rating</b> out of 100.</p>
+  <p>The <b>Y-axis</b> represents <b>gender</b>(top) and <b>race</b>(bottom) categories.</p>
+</ng-template>
+
+
+
+<ng-template #content15 >
+  <p>The Profile, Comments and Ratings panels remain same as the Rating page.</p>
+  <p>The content will popup when you interact with the data points on the plots or the applicant list.</p>
+</ng-template>
+
+
+<ng-template #content14 >
+  <p>The list of applicants you've rated.</p>
+  
+  <p> -  <b>Hovering</b> on a name will <b>highlight</b> the applicant on the plots.</p> 
+  <p> -  <b>Click</b> on a name to <b>go back</b> to the Rating page of the applicant.</p>
+
+
+</ng-template>

@@ -1,0 +1,86 @@
+.filter{
+  float:left;
+  width: 10%;
+  height:100%;
+  padding:30px;
+}
+
+
+::ng-deep
+.mat-tooltip {
+  // background-color: darkblue;
+  font-size: 12px !important;
+  white-space: pre-line !important;
+}
+
+.main-view{
+  height:calc(100vh - 42px) !important;
+}
+
+.mat-tab-link {
+  min-width: 32px !important; 
+  height: 32px !important;
+}
+
+.mat-tab-label-active {
+color:#3f51b5 !important;
+opacity: 1;
+}
+
+.mat-button-toggle-group {
+  height: 38px;
+  align-items: center;
+}
+
+::ng-deep
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content
+{
+    padding: 0 9px !important;
+}
+
+.info-box{
+  font-size:12px;
+  height:min-content; 
+  margin-top: auto; margin-bottom: auto;
+  margin-left: 8px;
+  margin-right: 18px;
+  text-align: justify;
+  padding: 10px !important;
+}
+
+.info-icon{
+  color: rgb(146, 145, 145);
+  font-size:14px;
+  height:min-content; 
+  margin-top: auto; margin-bottom: auto;
+  margin-left: 40px;
+  margin-right: 0px;
+  text-align: right;
+}
+
+.list-group-item{
+  padding: 10px 5px!important;
+}
+
+::ng-deep
+.joyride-step__container {
+  max-width: 36vw !important;
+  }
+
+  .info-color{
+    color: #f0ad4e;
+    // opacity: 0.8;
+  }
+
+  // .y-axis{
+  //   color: lightgray;
+  // }
+  ::ng-deep
+  .axis .tick line {
+    fill: none;
+    stroke: black;
+    opacity: 0.1;
+  }
+
+
+

@@ -1,0 +1,20 @@
+.navbar {
+    min-height: 42px;
+    padding: 0 1rem;
+}
+
+.disabled-link {
+    
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .mat-success {
+    background-color: #04AA6D;
+    color: #fff;
+}
+
+// ::ng-deep
+// .joyride-step__container {
+//   max-width: 50vw !important;
+//   }

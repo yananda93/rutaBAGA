@@ -1,0 +1,75 @@
+.btn:focus {
+  box-shadow: none;
+}
+
+.review-progress{
+  // margin-top: 2px;
+  padding-left: 20px;
+
+}
+
+
+.pdf-view {
+  height:calc(100vh - 112px) !important;
+  // overflow: scroll;
+}
+
+.tab-visited{
+  background-color: blue !important;
+}
+
+::ng-deep
+.mat-tooltip {
+  // background-color: darkblue;
+  font-size: 12px !important;
+  white-space: pre-line !important;
+}
+
+
+
+.bt:hover{
+  background-color: #DCDCDC;
+}
+
+.mat-button-toggle {
+ 
+  font-size: 13px;
+
+}
+
+.mat-button-toggle-group {
+  height: 32px;
+  align-items: center;
+}
+
+
+// .nav-link {
+//   padding: 0.2rem 1rem;
+// }
+
+
+
+.mat-tab-link {
+  min-width: 28px !important; 
+  height: 38px !important;
+}
+
+.mat-tab-label-active {
+color:#3f51b5 !important;
+opacity: 1;
+}
+
+.main-view{
+  height:calc(100vh - 70px) !important;
+}
+
+.mat-raised-button {
+  line-height: 28px !important;
+}
+
+
+::ng-deep
+.joyride-step__container {
+  max-width: 50vw !important;
+  }
+

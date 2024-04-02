@@ -1,0 +1,13 @@
+NAME_LAST,NAME_FIRST,SCHOOL_CODE,GPA,CLASS_RANK,CLASS_SIZE,SAT,SAT_MATH,SAT_RW,GENDER,RACE
+Washington,Aaliyah,340020,3.9,5,100,1500,750,750,Female,Black
+Brooks,Keisha,130004,3.4,90,150,1290,670,620,Female,Black
+Johnson,Emily,100466,3.8,14,200,1550,770,780,Female,White
+O'Donnell,Sarah,170005,3.4,163,250,1280,660,620,Female,White
+Richardson,Jamal,360005,3.9,12,200,1540,760,780,Male,Black
+Brown,Terrence,140021,3.2,68,100,1260,650,610,Male,Black
+Miller,Lucas,160015,3.7,14,150,1490,740,750,Male,White
+Smith,Daniel,030137,3.5,180,250,1300,670,630,Male,White
+Patterson,Taylor,110057,3.8,16,200,1520,760,760,Non-binary,Black
+Thomas,Jordan,180014,3.5,183,250,1300,690,610,Non-binary,Black
+White,Alex,061148,4,1,100,1530,760,770,Non-binary,White
+Sullivan,Casey,221565,3.3,105,150,1270,650,620,Non-binary,White

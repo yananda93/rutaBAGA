@@ -1,0 +1,14 @@
+<form [formGroup]="commentForm" >
+    <mat-form-field class="comment-box" >
+      <mat-label style=" margin-bottom:12px;">Add a comment</mat-label>
+      <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+               cdkAutosizeMaxRows="3" class="form-control"
+        formControlName="commentControl" (focus)="onFocus()" >
+      </textarea>
+    </mat-form-field>
+    <div class="buttons is-right" *ngIf="isCommentButtonVisible">
+      <button type="button" class="button is-small" (click)="cancelComment()">Cancel</button>
+      <button type="button" class="button is-small is-primary"
+        (click)="submitComment()">Submit</button>
+    </div>
+</form>

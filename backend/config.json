@@ -1,0 +1,7 @@
+{
+    "DEBUG": false,
+    "SECRET_KEY": "A super-secret key for my flask",
+    "JWT_TOKEN_LOCATION": "headers",
+    "JWT_ACCESS_TOKEN_EXPIRES": 30,
+    "JWT_REFRESH_TOKEN_EXPIRES": 60
+}
